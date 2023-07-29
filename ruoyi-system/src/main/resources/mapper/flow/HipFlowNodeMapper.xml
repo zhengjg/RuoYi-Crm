@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.flow.mapper.HipFlowNodeMapper">
+    
+    <resultMap type="HipFlowNode" id="HipFlowNodeResult">
+        <result property="flowNodeId"    column="flow_node_id"    />
+        <result property="flowNo"    column="flow_no"    />
+        <result property="flowNodeName"    column="flow_node_name"    />
+        <result property="flowNodeRole"    column="flow_node_role"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHipFlowNodeVo">
+        select flow_node_id, flow_no, flow_node_name, flow_node_role, remark from hip_flow_node
+    </sql>
+
+    <select id="selectHipFlowNodeList" parameterType="HipFlowNode" resultMap="HipFlowNodeResult">
+        <include refid="selectHipFlowNodeVo"/>
+        <where>  
+            <if test="flowNodeName != null  and flowNodeName != ''"> and flow_node_name like concat('%', #{flowNodeName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectHipFlowNodeByFlowNodeId" parameterType="Integer" resultMap="HipFlowNodeResult">
+        <include refid="selectHipFlowNodeVo"/>
+        where flow_node_id = #{flowNodeId}
+    </select>
+        
+    <insert id="insertHipFlowNode" parameterType="HipFlowNode" useGeneratedKeys="true" keyProperty="flowNodeId">
+        insert into hip_flow_node
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flowNo != null">flow_no,</if>
+            <if test="flowNodeName != null">flow_node_name,</if>
+            <if test="flowNodeRole != null">flow_node_role,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flowNo != null">#{flowNo},</if>
+            <if test="flowNodeName != null">#{flowNodeName},</if>
+            <if test="flowNodeRole != null">#{flowNodeRole},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipFlowNode" parameterType="HipFlowNode">
+        update hip_flow_node
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="flowNo != null">flow_no = #{flowNo},</if>
+            <if test="flowNodeName != null">flow_node_name = #{flowNodeName},</if>
+            <if test="flowNodeRole != null">flow_node_role = #{flowNodeRole},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where flow_node_id = #{flowNodeId}
+    </update>
+
+    <delete id="deleteHipFlowNodeByFlowNodeId" parameterType="Integer">
+        delete from hip_flow_node where flow_node_id = #{flowNodeId}
+    </delete>
+
+    <delete id="deleteHipFlowNodeByFlowNodeIds" parameterType="String">
+        delete from hip_flow_node where flow_node_id in 
+        <foreach item="flowNodeId" collection="array" open="(" separator="," close=")">
+            #{flowNodeId}
+        </foreach>
+    </delete>
+</mapper>

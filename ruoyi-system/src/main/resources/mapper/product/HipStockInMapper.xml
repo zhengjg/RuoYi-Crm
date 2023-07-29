@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.product.mapper.HipStockInMapper">
+
+    <resultMap type="HipStockIn" id="HipStockInResult">
+        <result property="stockInId"    column="stock_in_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="sysOrgCode"    column="sys_org_code"    />
+        <result property="productNo"    column="product_no"    />
+        <result property="name"    column="name"    />
+        <result property="model"    column="model"    />
+        <result property="unit"    column="unit"    />
+        <result property="productCategory"    column="product_category"    />
+        <result property="productAttribute"    column="product_attribute"    />
+        <result property="brand"    column="brand"    />
+        <result property="specification"    column="specification"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="warehouse"    column="warehouse"    />
+    </resultMap>
+
+    <sql id="selectHipStockInVo">
+        select stock_in_id, create_time, update_by, update_time, sys_org_code, product_no, name, model, unit, product_category, product_attribute, brand, specification, quantity, warehouse from hip_stock_in
+    </sql>
+
+    <select id="selectHipStockInList" parameterType="HipStockIn" resultMap="HipStockInResult">
+        <include refid="selectHipStockInVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="model != null  and model != ''"> and model = #{model}</if>
+            <if test="productCategory != null  and productCategory != ''"> and product_category = #{productCategory}</if>
+            <if test="warehouse != null  and warehouse != ''"> and warehouse = #{warehouse}</if>
+        </where>
+    </select>
+
+    <select id="selectHipStockInByStockInId" parameterType="Integer" resultMap="HipStockInResult">
+        <include refid="selectHipStockInVo"/>
+        where stock_in_id = #{stockInId}
+    </select>
+
+    <insert id="insertHipStockIn" parameterType="HipStockIn" useGeneratedKeys="true" keyProperty="stockInId">
+        insert into hip_stock_in
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="sysOrgCode != null">sys_org_code,</if>
+            <if test="productNo != null">product_no,</if>
+            <if test="name != null">name,</if>
+            <if test="model != null">model,</if>
+            <if test="unit != null">unit,</if>
+            <if test="productCategory != null">product_category,</if>
+            <if test="productAttribute != null">product_attribute,</if>
+            <if test="brand != null">brand,</if>
+            <if test="specification != null">specification,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="warehouse != null">warehouse,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="sysOrgCode != null">#{sysOrgCode},</if>
+            <if test="productNo != null">#{productNo},</if>
+            <if test="name != null">#{name},</if>
+            <if test="model != null">#{model},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="productCategory != null">#{productCategory},</if>
+            <if test="productAttribute != null">#{productAttribute},</if>
+            <if test="brand != null">#{brand},</if>
+            <if test="specification != null">#{specification},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="warehouse != null">#{warehouse},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipStockIn" parameterType="HipStockIn">
+        update hip_stock_in
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="sysOrgCode != null">sys_org_code = #{sysOrgCode},</if>
+            <if test="productNo != null">product_no = #{productNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="productCategory != null">product_category = #{productCategory},</if>
+            <if test="productAttribute != null">product_attribute = #{productAttribute},</if>
+            <if test="brand != null">brand = #{brand},</if>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="warehouse != null">warehouse = #{warehouse},</if>
+        </trim>
+        where stock_in_id = #{stockInId}
+    </update>
+
+    <delete id="deleteHipStockInByStockInId" parameterType="Integer">
+        delete from hip_stock_in where stock_in_id = #{stockInId}
+    </delete>
+
+    <delete id="deleteHipStockInByStockInIds" parameterType="String">
+        delete from hip_stock_in where stock_in_id in
+        <foreach item="stockInId" collection="array" open="(" separator="," close=")">
+            #{stockInId}
+        </foreach>
+    </delete>
+</mapper>

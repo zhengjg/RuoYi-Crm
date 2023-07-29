@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.flow.mapper.HipLeaveAuditMapper">
+
+    <resultMap type="HipLeaveAudit" id="HipLeaveAuditResult">
+        <result property="auditId"    column="audit_id"    />
+        <result property="leaveId"    column="leave_id"    />
+        <result property="flowNodeId"    column="flow_node_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="auditResult"    column="audit_result"    />
+        <result property="userName"    column="user_name"    />
+        <result property="auditInfo"    column="audit_info"    />
+        <result property="auditDate"    column="audit_date"    />
+    </resultMap>
+
+    <sql id="selectHipLeaveAuditVo">
+        select audit_id, leave_id, flow_node_id, user_id, audit_result, user_name, audit_info, audit_date from hip_leave_audit
+    </sql>
+
+    <select id="selectHipLeaveAuditList" parameterType="HipLeaveAudit" resultMap="HipLeaveAuditResult">
+        <include refid="selectHipLeaveAuditVo"/>
+        <where>
+            <if test="auditResult != null "> and audit_result = #{auditResult}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectHipLeaveAuditByAuditId" parameterType="Integer" resultMap="HipLeaveAuditResult">
+        <include refid="selectHipLeaveAuditVo"/>
+        where audit_id = #{auditId}
+    </select>
+
+    <insert id="insertHipLeaveAudit" parameterType="HipLeaveAudit" useGeneratedKeys="true" keyProperty="auditId">
+        insert into hip_leave_audit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="leaveId != null">leave_id,</if>
+            <if test="flowNodeId != null">flow_node_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="auditResult != null">audit_result,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="auditInfo != null">audit_info,</if>
+            <if test="auditDate != null">audit_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="leaveId != null">#{leaveId},</if>
+            <if test="flowNodeId != null">#{flowNodeId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="auditResult != null">#{auditResult},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="auditInfo != null">#{auditInfo},</if>
+            <if test="auditDate != null">#{auditDate},</if>
+        </trim>
+    </insert>
+
+    <update id="updateHipLeaveAudit" parameterType="HipLeaveAudit">
+        update hip_leave_audit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="leaveId != null">leave_id = #{leaveId},</if>
+            <if test="flowNodeId != null">flow_node_id = #{flowNodeId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="auditResult != null">audit_result = #{auditResult},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="auditInfo != null">audit_info = #{auditInfo},</if>
+            <if test="auditDate != null">audit_date = #{auditDate},</if>
+        </trim>
+        where audit_id = #{auditId}
+    </update>
+
+    <delete id="deleteHipLeaveAuditByAuditId" parameterType="Integer">
+        delete from hip_leave_audit where audit_id = #{auditId}
+    </delete>
+
+    <delete id="deleteHipLeaveAuditByAuditIds" parameterType="String">
+        delete from hip_leave_audit where audit_id in
+        <foreach item="auditId" collection="array" open="(" separator="," close=")">
+            #{auditId}
+        </foreach>
+    </delete>
+</mapper>

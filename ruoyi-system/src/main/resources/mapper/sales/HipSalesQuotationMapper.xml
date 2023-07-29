@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.sales.mapper.HipSalesQuotationMapper">
+    
+    <resultMap type="HipSalesQuotation" id="HipSalesQuotationResult">
+        <result property="quotationId"    column="quotation_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="sysOrgCode"    column="sys_org_code"    />
+        <result property="quotationNo"    column="quotation_no"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="quotationDate"    column="quotation_date"    />
+        <result property="validDate"    column="valid_date"    />
+        <result property="isEnable"    column="is_enable"    />
+        <result property="taxRate"    column="tax_rate"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="saleMan"    column="sale_man"    />
+        <result property="quotationSolution"    column="quotation_solution"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="customerName"    column="customer_name"    />
+    </resultMap>
+
+    <resultMap id="HipSalesQuotationHipSalesQuotationDetailResult" type="HipSalesQuotation" extends="HipSalesQuotationResult">
+        <collection property="hipSalesQuotationDetailList" notNullColumn="sub_quotation_detail_id" javaType="java.util.List" resultMap="HipSalesQuotationDetailResult" />
+    </resultMap>
+
+    <resultMap type="HipSalesQuotationDetail" id="HipSalesQuotationDetailResult">
+        <result property="quotationDetailId"    column="sub_quotation_detail_id"    />
+        <result property="createBy"    column="sub_create_by"    />
+        <result property="createTime"    column="sub_create_time"    />
+        <result property="updateBy"    column="sub_update_by"    />
+        <result property="updateTime"    column="sub_update_time"    />
+        <result property="sysOrgCode"    column="sub_sys_org_code"    />
+        <result property="prodctName"    column="sub_prodct_name"    />
+        <result property="model"    column="sub_model"    />
+        <result property="packageType"    column="sub_package_type"    />
+        <result property="category"    column="sub_category"    />
+        <result property="brand"    column="sub_brand"    />
+        <result property="unitPrice"    column="sub_unit_price"    />
+        <result property="quantity"    column="sub_quantity"    />
+        <result property="amountMoney"    column="sub_amount_money"    />
+        <result property="introduction"    column="sub_introduction"    />
+        <result property="quotationId"    column="sub_quotation_id"    />
+    </resultMap>
+
+    <sql id="selectHipSalesQuotationVo">
+        select quotation_id, create_by, create_time, update_by, update_time, sys_org_code, quotation_no, project_name, quotation_date, valid_date, is_enable, tax_rate, customer_id, sale_man, quotation_solution, remarks, customer_name from hip_sales_quotation
+    </sql>
+
+    <select id="selectHipSalesQuotationList" parameterType="HipSalesQuotation" resultMap="HipSalesQuotationResult">
+        <include refid="selectHipSalesQuotationVo"/>
+        <where>  
+            <if test="sysOrgCode != null  and sysOrgCode != ''"> and sys_org_code = #{sysOrgCode}</if>
+            <if test="quotationDate != null  and quotationDate != ''"> and quotation_date = #{quotationDate}</if>
+            <if test="isEnable != null  and isEnable != ''"> and is_enable = #{isEnable}</if>
+            <if test="customerId != null  and customerId != ''"> and customer_id = #{customerId}</if>
+            <if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectHipSalesQuotationByQuotationId" parameterType="Integer" resultMap="HipSalesQuotationHipSalesQuotationDetailResult">
+        select a.quotation_id, a.create_by, a.create_time, a.update_by, a.update_time, a.sys_org_code, a.quotation_no, a.project_name, a.quotation_date, a.valid_date, a.is_enable, a.tax_rate, a.customer_id, a.sale_man, a.quotation_solution, a.remarks, a.customer_name,
+ b.quotation_detail_id as sub_quotation_detail_id, b.create_by as sub_create_by, b.create_time as sub_create_time, b.update_by as sub_update_by, b.update_time as sub_update_time, b.sys_org_code as sub_sys_org_code, b.prodct_name as sub_prodct_name, b.model as sub_model, b.package_type as sub_package_type, b.category as sub_category, b.brand as sub_brand, b.unit_price as sub_unit_price, b.quantity as sub_quantity, b.amount_money as sub_amount_money, b.introduction as sub_introduction, b.quotation_id as sub_quotation_id
+        from hip_sales_quotation a
+        left join hip_sales_quotation_detail b on b.quotation_id = a.quotation_id
+        where a.quotation_id = #{quotationId}
+    </select>
+        
+    <insert id="insertHipSalesQuotation" parameterType="HipSalesQuotation" useGeneratedKeys="true" keyProperty="quotationId">
+        insert into hip_sales_quotation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="sysOrgCode != null">sys_org_code,</if>
+            <if test="quotationNo != null and quotationNo != ''">quotation_no,</if>
+            <if test="projectName != null">project_name,</if>
+            <if test="quotationDate != null and quotationDate != ''">quotation_date,</if>
+            <if test="validDate != null">valid_date,</if>
+            <if test="isEnable != null">is_enable,</if>
+            <if test="taxRate != null">tax_rate,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="saleMan != null and saleMan != ''">sale_man,</if>
+            <if test="quotationSolution != null">quotation_solution,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="customerName != null">customer_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="sysOrgCode != null">#{sysOrgCode},</if>
+            <if test="quotationNo != null and quotationNo != ''">#{quotationNo},</if>
+            <if test="projectName != null">#{projectName},</if>
+            <if test="quotationDate != null and quotationDate != ''">#{quotationDate},</if>
+            <if test="validDate != null">#{validDate},</if>
+            <if test="isEnable != null">#{isEnable},</if>
+            <if test="taxRate != null">#{taxRate},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="saleMan != null and saleMan != ''">#{saleMan},</if>
+            <if test="quotationSolution != null">#{quotationSolution},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="customerName != null">#{customerName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipSalesQuotation" parameterType="HipSalesQuotation">
+        update hip_sales_quotation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="sysOrgCode != null">sys_org_code = #{sysOrgCode},</if>
+            <if test="quotationNo != null and quotationNo != ''">quotation_no = #{quotationNo},</if>
+            <if test="projectName != null">project_name = #{projectName},</if>
+            <if test="quotationDate != null and quotationDate != ''">quotation_date = #{quotationDate},</if>
+            <if test="validDate != null">valid_date = #{validDate},</if>
+            <if test="isEnable != null">is_enable = #{isEnable},</if>
+            <if test="taxRate != null">tax_rate = #{taxRate},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="saleMan != null and saleMan != ''">sale_man = #{saleMan},</if>
+            <if test="quotationSolution != null">quotation_solution = #{quotationSolution},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="customerName != null">customer_name = #{customerName},</if>
+        </trim>
+        where quotation_id = #{quotationId}
+    </update>
+
+    <delete id="deleteHipSalesQuotationByQuotationId" parameterType="Integer">
+        delete from hip_sales_quotation where quotation_id = #{quotationId}
+    </delete>
+
+    <delete id="deleteHipSalesQuotationByQuotationIds" parameterType="String">
+        delete from hip_sales_quotation where quotation_id in 
+        <foreach item="quotationId" collection="array" open="(" separator="," close=")">
+            #{quotationId}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteHipSalesQuotationDetailByQuotationIds" parameterType="String">
+        delete from hip_sales_quotation_detail where quotation_id in 
+        <foreach item="quotationId" collection="array" open="(" separator="," close=")">
+            #{quotationId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteHipSalesQuotationDetailByQuotationId" parameterType="Integer">
+        delete from hip_sales_quotation_detail where quotation_id = #{quotationId}
+    </delete>
+
+    <insert id="batchHipSalesQuotationDetail">
+        insert into hip_sales_quotation_detail( quotation_detail_id, create_by, create_time, update_by, update_time, sys_org_code, prodct_name, model, package_type, category, brand, unit_price, quantity, amount_money, introduction, quotation_id) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.quotationDetailId}, #{item.createBy}, #{item.createTime}, #{item.updateBy}, #{item.updateTime}, #{item.sysOrgCode}, #{item.prodctName}, #{item.model}, #{item.packageType}, #{item.category}, #{item.brand}, #{item.unitPrice}, #{item.quantity}, #{item.amountMoney}, #{item.introduction}, #{item.quotationId})
+        </foreach>
+    </insert>
+</mapper>

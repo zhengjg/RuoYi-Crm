@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.customer.mapper.HipContactsMapper">
+
+    <resultMap type="HipContacts" id="HipContactsResult">
+        <result property="contactsId"    column="contacts_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="sysOrgCode"    column="sys_org_code"    />
+        <result property="name"    column="name"    />
+        <result property="sex"    column="sex"    />
+        <result property="age"    column="age"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="phone"    column="phone"    />
+        <result property="department"    column="department"    />
+        <result property="position"    column="position"    />
+        <result property="email"    column="email"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="isEnable"    column="is_enable"    />
+    </resultMap>
+
+    <sql id="selectHipContactsVo">
+        select contacts_id, create_by, create_time, update_by, update_time, sys_org_code, name, sex, age, mobile, phone, department, position, email, customer_id, is_enable from hip_contacts
+    </sql>
+
+    <select id="selectHipContactsList" parameterType="HipContacts" resultMap="HipContactsResult">
+        <include refid="selectHipContactsVo"/>
+        <where>
+            <if test="sysOrgCode != null  and sysOrgCode != ''"> and sys_org_code = #{sysOrgCode}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="isEnable != null  and isEnable != ''"> and is_enable = #{isEnable}</if>
+        </where>
+    </select>
+
+    <select id="selectHipContactsByContactsId" parameterType="Integer" resultMap="HipContactsResult">
+        <include refid="selectHipContactsVo"/>
+        where contacts_id = #{contactsId}
+    </select>
+
+    <insert id="insertHipContacts" parameterType="HipContacts" useGeneratedKeys="true" keyProperty="contactsId">
+        insert into hip_contacts
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="sysOrgCode != null">sys_org_code,</if>
+            <if test="name != null">name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="age != null">age,</if>
+            <if test="mobile != null">mobile,</if>
+            <if test="phone != null">phone,</if>
+            <if test="department != null">department,</if>
+            <if test="position != null">position,</if>
+            <if test="email != null">email,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="isEnable != null">is_enable,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="sysOrgCode != null">#{sysOrgCode},</if>
+            <if test="name != null">#{name},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="age != null">#{age},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="department != null">#{department},</if>
+            <if test="position != null">#{position},</if>
+            <if test="email != null">#{email},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="isEnable != null">#{isEnable},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipContacts" parameterType="HipContacts">
+        update hip_contacts
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="sysOrgCode != null">sys_org_code = #{sysOrgCode},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="department != null">department = #{department},</if>
+            <if test="position != null">position = #{position},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="isEnable != null">is_enable = #{isEnable},</if>
+        </trim>
+        where contacts_id = #{contactsId}
+    </update>
+
+    <delete id="deleteHipContactsByContactsId" parameterType="Integer">
+        delete from hip_contacts where contacts_id = #{contactsId}
+    </delete>
+
+    <delete id="deleteHipContactsByContactsIds" parameterType="String">
+        delete from hip_contacts where contacts_id in
+        <foreach item="contactsId" collection="array" open="(" separator="," close=")">
+            #{contactsId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.product.mapper.HipStockOutMapper">
+
+    <resultMap type="HipStockOut" id="HipStockOutResult">
+        <result property="stockOutId"    column="stock_out_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="sysOrgCode"    column="sys_org_code"    />
+        <result property="productNo"    column="product_no"    />
+        <result property="name"    column="name"    />
+        <result property="model"    column="model"    />
+        <result property="unit"    column="unit"    />
+        <result property="productCategory"    column="product_category"    />
+        <result property="productAttribute"    column="product_attribute"    />
+        <result property="brand"    column="brand"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="specification"    column="specification"    />
+        <result property="contractNo"    column="contract_no"    />
+        <result property="warehouse"    column="warehouse"    />
+        <result property="customerName"    column="customer_name"    />
+        <result property="customerId"    column="customer_id"    />
+    </resultMap>
+
+    <sql id="selectHipStockOutVo">
+        select stock_out_id, create_time, update_by, update_time, sys_org_code, product_no, name, model, unit, product_category, product_attribute, brand, quantity, specification, contract_no, warehouse, customer_name, customer_id from hip_stock_out
+    </sql>
+
+    <select id="selectHipStockOutList" parameterType="HipStockOut" resultMap="HipStockOutResult">
+        <include refid="selectHipStockOutVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="model != null  and model != ''"> and model = #{model}</if>
+            <if test="productCategory != null  and productCategory != ''"> and product_category = #{productCategory}</if>
+            <if test="brand != null  and brand != ''"> and brand = #{brand}</if>
+            <if test="contractNo != null  and contractNo != ''"> and contract_no = #{contractNo}</if>
+            <if test="warehouse != null  and warehouse != ''"> and warehouse = #{warehouse}</if>
+            <if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectHipStockOutByStockOutId" parameterType="Integer" resultMap="HipStockOutResult">
+        <include refid="selectHipStockOutVo"/>
+        where stock_out_id = #{stockOutId}
+    </select>
+
+    <insert id="insertHipStockOut" parameterType="HipStockOut" useGeneratedKeys="true" keyProperty="stockOutId">
+        insert into hip_stock_out
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="sysOrgCode != null">sys_org_code,</if>
+            <if test="productNo != null">product_no,</if>
+            <if test="name != null">name,</if>
+            <if test="model != null">model,</if>
+            <if test="unit != null">unit,</if>
+            <if test="productCategory != null">product_category,</if>
+            <if test="productAttribute != null">product_attribute,</if>
+            <if test="brand != null">brand,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="specification != null">specification,</if>
+            <if test="contractNo != null">contract_no,</if>
+            <if test="warehouse != null">warehouse,</if>
+            <if test="customerName != null">customer_name,</if>
+            <if test="customerId != null">customer_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="sysOrgCode != null">#{sysOrgCode},</if>
+            <if test="productNo != null">#{productNo},</if>
+            <if test="name != null">#{name},</if>
+            <if test="model != null">#{model},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="productCategory != null">#{productCategory},</if>
+            <if test="productAttribute != null">#{productAttribute},</if>
+            <if test="brand != null">#{brand},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="specification != null">#{specification},</if>
+            <if test="contractNo != null">#{contractNo},</if>
+            <if test="warehouse != null">#{warehouse},</if>
+            <if test="customerName != null">#{customerName},</if>
+            <if test="customerId != null">#{customerId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipStockOut" parameterType="HipStockOut">
+        update hip_stock_out
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="sysOrgCode != null">sys_org_code = #{sysOrgCode},</if>
+            <if test="productNo != null">product_no = #{productNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="productCategory != null">product_category = #{productCategory},</if>
+            <if test="productAttribute != null">product_attribute = #{productAttribute},</if>
+            <if test="brand != null">brand = #{brand},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="contractNo != null">contract_no = #{contractNo},</if>
+            <if test="warehouse != null">warehouse = #{warehouse},</if>
+            <if test="customerName != null">customer_name = #{customerName},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+        </trim>
+        where stock_out_id = #{stockOutId}
+    </update>
+
+    <delete id="deleteHipStockOutByStockOutId" parameterType="Integer">
+        delete from hip_stock_out where stock_out_id = #{stockOutId}
+    </delete>
+
+    <delete id="deleteHipStockOutByStockOutIds" parameterType="String">
+        delete from hip_stock_out where stock_out_id in
+        <foreach item="stockOutId" collection="array" open="(" separator="," close=")">
+            #{stockOutId}
+        </foreach>
+    </delete>
+</mapper>

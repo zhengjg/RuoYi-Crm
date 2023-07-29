@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.product.mapper.HipProductMapper">
+    
+    <resultMap type="HipProduct" id="HipProductResult">
+        <result property="productId"    column="product_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="sysOrgCode"    column="sys_org_code"    />
+        <result property="productNo"    column="product_no"    />
+        <result property="name"    column="name"    />
+        <result property="model"    column="model"    />
+        <result property="unitGroup"    column="unit_group"    />
+        <result property="unit"    column="unit"    />
+        <result property="productType"    column="product_type"    />
+        <result property="productProperty"    column="product_property"    />
+        <result property="brand"    column="brand"    />
+        <result property="specification"    column="specification"    />
+        <result property="packageType"    column="package_type"    />
+        <result property="img"    column="img"    />
+        <result property="placeOrigin"    column="place_origin"    />
+        <result property="referPrice"    column="refer_price"    />
+        <result property="lowPrice"    column="low_price"    />
+        <result property="quantity"    column="quantity"    />
+    </resultMap>
+
+    <sql id="selectHipProductVo">
+        select product_id, create_by, create_time, update_by, update_time, sys_org_code, product_no, name, model, unit_group, unit, product_type, product_property, brand, specification, package_type, img, place_origin, refer_price, low_price, quantity from hip_product
+    </sql>
+
+    <select id="selectHipProductList" parameterType="HipProduct" resultMap="HipProductResult">
+        <include refid="selectHipProductVo"/>
+        <where>  
+            <if test="productNo != null  and productNo != ''"> and product_no = #{productNo}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="model != null  and model != ''"> and model = #{model}</if>
+            <if test="productType != null  and productType != ''"> and product_type = #{productType}</if>
+            <if test="brand != null  and brand != ''"> and brand = #{brand}</if>
+        </where>
+    </select>
+    
+    <select id="selectHipProductByProductId" parameterType="Integer" resultMap="HipProductResult">
+        <include refid="selectHipProductVo"/>
+        where product_id = #{productId}
+    </select>
+        
+    <insert id="insertHipProduct" parameterType="HipProduct" useGeneratedKeys="true" keyProperty="productId">
+        insert into hip_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="sysOrgCode != null">sys_org_code,</if>
+            <if test="productNo != null">product_no,</if>
+            <if test="name != null">name,</if>
+            <if test="model != null">model,</if>
+            <if test="unitGroup != null">unit_group,</if>
+            <if test="unit != null">unit,</if>
+            <if test="productType != null">product_type,</if>
+            <if test="productProperty != null">product_property,</if>
+            <if test="brand != null">brand,</if>
+            <if test="specification != null">specification,</if>
+            <if test="packageType != null">package_type,</if>
+            <if test="img != null">img,</if>
+            <if test="placeOrigin != null">place_origin,</if>
+            <if test="referPrice != null">refer_price,</if>
+            <if test="lowPrice != null">low_price,</if>
+            <if test="quantity != null">quantity,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="sysOrgCode != null">#{sysOrgCode},</if>
+            <if test="productNo != null">#{productNo},</if>
+            <if test="name != null">#{name},</if>
+            <if test="model != null">#{model},</if>
+            <if test="unitGroup != null">#{unitGroup},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="productType != null">#{productType},</if>
+            <if test="productProperty != null">#{productProperty},</if>
+            <if test="brand != null">#{brand},</if>
+            <if test="specification != null">#{specification},</if>
+            <if test="packageType != null">#{packageType},</if>
+            <if test="img != null">#{img},</if>
+            <if test="placeOrigin != null">#{placeOrigin},</if>
+            <if test="referPrice != null">#{referPrice},</if>
+            <if test="lowPrice != null">#{lowPrice},</if>
+            <if test="quantity != null">#{quantity},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipProduct" parameterType="HipProduct">
+        update hip_product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="sysOrgCode != null">sys_org_code = #{sysOrgCode},</if>
+            <if test="productNo != null">product_no = #{productNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="unitGroup != null">unit_group = #{unitGroup},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="productType != null">product_type = #{productType},</if>
+            <if test="productProperty != null">product_property = #{productProperty},</if>
+            <if test="brand != null">brand = #{brand},</if>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="packageType != null">package_type = #{packageType},</if>
+            <if test="img != null">img = #{img},</if>
+            <if test="placeOrigin != null">place_origin = #{placeOrigin},</if>
+            <if test="referPrice != null">refer_price = #{referPrice},</if>
+            <if test="lowPrice != null">low_price = #{lowPrice},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+        </trim>
+        where product_id = #{productId}
+    </update>
+
+    <delete id="deleteHipProductByProductId" parameterType="Integer">
+        delete from hip_product where product_id = #{productId}
+    </delete>
+
+    <delete id="deleteHipProductByProductIds" parameterType="String">
+        delete from hip_product where product_id in 
+        <foreach item="productId" collection="array" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.customer.mapper.HipContractOrderMapper">
+
+    <resultMap type="HipContractOrder" id="HipContractOrderResult">
+        <result property="contractOrderId"    column="contract_order_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="prodctName"    column="prodct_name"    />
+        <result property="model"    column="model"    />
+        <result property="capacity"    column="capacity"    />
+        <result property="category"    column="category"    />
+        <result property="brand"    column="brand"    />
+        <result property="status"    column="status"    />
+        <result property="unitPrice"    column="unit_price"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="amountMoney"    column="amount_money"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="contractNo"    column="contract_no"    />
+        <result property="productId"    column="product_id"    />
+    </resultMap>
+
+    <sql id="selectHipContractOrderVo">
+        select contract_order_id, create_time, prodct_name, model, capacity, category, brand, status, unit_price, quantity, amount_money, remarks, contract_no, product_id from hip_contract_order
+    </sql>
+
+    <select id="selectHipContractOrderList" parameterType="HipContractOrder" resultMap="HipContractOrderResult">
+        <include refid="selectHipContractOrderVo"/>
+        <where>
+            <if test="prodctName != null  and prodctName != ''"> and prodct_name like concat('%', #{prodctName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectHipContractOrderByContractOrderId" parameterType="Integer" resultMap="HipContractOrderResult">
+        <include refid="selectHipContractOrderVo"/>
+        where contract_order_id = #{contractOrderId}
+    </select>
+
+    <insert id="insertHipContractOrder" parameterType="HipContractOrder" useGeneratedKeys="true" keyProperty="contractOrderId">
+        insert into hip_contract_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">create_time,</if>
+            <if test="prodctName != null">prodct_name,</if>
+            <if test="model != null">model,</if>
+            <if test="capacity != null">capacity,</if>
+            <if test="category != null">category,</if>
+            <if test="brand != null">brand,</if>
+            <if test="status != null">status,</if>
+            <if test="unitPrice != null">unit_price,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="amountMoney != null">amount_money,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="contractNo != null">contract_no,</if>
+            <if test="productId != null">product_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">#{createTime},</if>
+            <if test="prodctName != null">#{prodctName},</if>
+            <if test="model != null">#{model},</if>
+            <if test="capacity != null">#{capacity},</if>
+            <if test="category != null">#{category},</if>
+            <if test="brand != null">#{brand},</if>
+            <if test="status != null">#{status},</if>
+            <if test="unitPrice != null">#{unitPrice},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="amountMoney != null">#{amountMoney},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="contractNo != null">#{contractNo},</if>
+            <if test="productId != null">#{productId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateHipContractOrder" parameterType="HipContractOrder">
+        update hip_contract_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="prodctName != null">prodct_name = #{prodctName},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="capacity != null">capacity = #{capacity},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="brand != null">brand = #{brand},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="unitPrice != null">unit_price = #{unitPrice},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="amountMoney != null">amount_money = #{amountMoney},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="contractNo != null">contract_no = #{contractNo},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+        </trim>
+        where contract_order_id = #{contractOrderId}
+    </update>
+
+    <delete id="deleteHipContractOrderByContractOrderId" parameterType="Integer">
+        delete from hip_contract_order where contract_order_id = #{contractOrderId}
+    </delete>
+
+    <delete id="deleteHipContractOrderByContractOrderIds" parameterType="String">
+        delete from hip_contract_order where contract_order_id in
+        <foreach item="contractOrderId" collection="array" open="(" separator="," close=")">
+            #{contractOrderId}
+        </foreach>
+    </delete>
+</mapper>

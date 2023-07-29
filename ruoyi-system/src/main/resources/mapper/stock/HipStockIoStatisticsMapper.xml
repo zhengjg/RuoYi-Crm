@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.stock.mapper.HipStockIoStatisticsMapper">
+    
+    <resultMap type="HipStockIoStatistics" id="HipStockIoStatisticsResult">
+        <result property="ioStatisticsId"    column="io_statistics_id"    />
+        <result property="year"    column="year"    />
+        <result property="month"    column="month"    />
+        <result property="warehouse"    column="warehouse"    />
+        <result property="stockInNum"    column="stock_in_num"    />
+        <result property="stockOutNum"    column="stock_out_num"    />
+        <result property="stockAmount"    column="stock_amount"    />
+        <result property="stockInPrice"    column="stock_in_price"    />
+        <result property="stockOutPrice"    column="stock_out_price"    />
+        <result property="stockPrice"    column="stock_price"    />
+    </resultMap>
+
+    <sql id="selectHipStockIoStatisticsVo">
+        select io_statistics_id, year, month, warehouse, stock_in_num, stock_out_num, stock_amount, stock_in_price, stock_out_price, stock_price from hip_stock_io_statistics
+    </sql>
+
+    <select id="selectHipStockIoStatisticsList" parameterType="HipStockIoStatistics" resultMap="HipStockIoStatisticsResult">
+        <include refid="selectHipStockIoStatisticsVo"/>
+        <where>  
+            <if test="year != null "> and year = #{year}</if>
+            <if test="month != null "> and month = #{month}</if>
+            <if test="warehouse != null  and warehouse != ''"> and warehouse = #{warehouse}</if>
+            <if test="stockInNum != null "> and stock_in_num = #{stockInNum}</if>
+            <if test="stockOutNum != null "> and stock_out_num = #{stockOutNum}</if>
+            <if test="stockAmount != null "> and stock_amount = #{stockAmount}</if>
+            <if test="stockInPrice != null "> and stock_in_price = #{stockInPrice}</if>
+            <if test="stockOutPrice != null "> and stock_out_price = #{stockOutPrice}</if>
+            <if test="stockPrice != null "> and stock_price = #{stockPrice}</if>
+        </where>
+    </select>
+    
+    <select id="selectHipStockIoStatisticsByIoStatisticsId" parameterType="Integer" resultMap="HipStockIoStatisticsResult">
+        <include refid="selectHipStockIoStatisticsVo"/>
+        where io_statistics_id = #{ioStatisticsId}
+    </select>
+        
+    <insert id="insertHipStockIoStatistics" parameterType="HipStockIoStatistics" useGeneratedKeys="true" keyProperty="ioStatisticsId">
+        insert into hip_stock_io_statistics
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="year != null">year,</if>
+            <if test="month != null">month,</if>
+            <if test="warehouse != null and warehouse != ''">warehouse,</if>
+            <if test="stockInNum != null">stock_in_num,</if>
+            <if test="stockOutNum != null">stock_out_num,</if>
+            <if test="stockAmount != null">stock_amount,</if>
+            <if test="stockInPrice != null">stock_in_price,</if>
+            <if test="stockOutPrice != null">stock_out_price,</if>
+            <if test="stockPrice != null">stock_price,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="year != null">#{year},</if>
+            <if test="month != null">#{month},</if>
+            <if test="warehouse != null and warehouse != ''">#{warehouse},</if>
+            <if test="stockInNum != null">#{stockInNum},</if>
+            <if test="stockOutNum != null">#{stockOutNum},</if>
+            <if test="stockAmount != null">#{stockAmount},</if>
+            <if test="stockInPrice != null">#{stockInPrice},</if>
+            <if test="stockOutPrice != null">#{stockOutPrice},</if>
+            <if test="stockPrice != null">#{stockPrice},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipStockIoStatistics" parameterType="HipStockIoStatistics">
+        update hip_stock_io_statistics
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="year != null">year = #{year},</if>
+            <if test="month != null">month = #{month},</if>
+            <if test="warehouse != null and warehouse != ''">warehouse = #{warehouse},</if>
+            <if test="stockInNum != null">stock_in_num = #{stockInNum},</if>
+            <if test="stockOutNum != null">stock_out_num = #{stockOutNum},</if>
+            <if test="stockAmount != null">stock_amount = #{stockAmount},</if>
+            <if test="stockInPrice != null">stock_in_price = #{stockInPrice},</if>
+            <if test="stockOutPrice != null">stock_out_price = #{stockOutPrice},</if>
+            <if test="stockPrice != null">stock_price = #{stockPrice},</if>
+        </trim>
+        where io_statistics_id = #{ioStatisticsId}
+    </update>
+
+    <delete id="deleteHipStockIoStatisticsByIoStatisticsId" parameterType="Integer">
+        delete from hip_stock_io_statistics where io_statistics_id = #{ioStatisticsId}
+    </delete>
+
+    <delete id="deleteHipStockIoStatisticsByIoStatisticsIds" parameterType="String">
+        delete from hip_stock_io_statistics where io_statistics_id in 
+        <foreach item="ioStatisticsId" collection="array" open="(" separator="," close=")">
+            #{ioStatisticsId}
+        </foreach>
+    </delete>
+</mapper>

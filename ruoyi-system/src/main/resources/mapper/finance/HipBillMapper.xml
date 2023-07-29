@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.finance.mapper.HipBillMapper">
+
+    <resultMap type="HipBill" id="HipBillResult">
+        <result property="billId"    column="bill_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="sysOrgCode"    column="sys_org_code"    />
+        <result property="receivable"    column="receivable"    />
+        <result property="received"    column="received"    />
+        <result property="remainder"    column="remainder"    />
+        <result property="taxPoint"    column="tax_point"    />
+        <result property="receiptDate"    column="receipt_date"    />
+        <result property="isInvoice"    column="is_invoice"    />
+        <result property="invoiceDate"    column="invoice_date"    />
+        <result property="invoiceAmount"    column="invoice_amount"    />
+        <result property="invoicedAmount"    column="invoiced_amount"    />
+        <result property="uninvoicedAmount"    column="uninvoiced_amount"    />
+        <result property="invoiceReversal"    column="invoice_reversal"    />
+        <result property="handledBy"    column="handled_by"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="contractNo"    column="contract_no"    />
+        <result property="isEnding"    column="is_ending"    />
+        <result property="customerName"    column="customer_name"    />
+        <result property="customerId"    column="customer_id"    />
+    </resultMap>
+
+    <sql id="selectHipBillVo">
+        select bill_id, create_time, update_by, update_time, sys_org_code, receivable, received, remainder, tax_point, receipt_date, is_invoice, invoice_date, invoice_amount, invoiced_amount, uninvoiced_amount, invoice_reversal, handled_by, remarks, contract_no, is_ending, customer_name, customer_id from hip_bill
+    </sql>
+
+    <select id="selectHipBillList" parameterType="HipBill" resultMap="HipBillResult">
+        <include refid="selectHipBillVo"/>
+        <where>
+            <if test="receiptDate != null "> and receipt_date = #{receiptDate}</if>
+            <if test="isInvoice != null  and isInvoice != ''"> and is_invoice = #{isInvoice}</if>
+            <if test="invoiceDate != null "> and invoice_date = #{invoiceDate}</if>
+            <if test="handledBy != null  and handledBy != ''"> and handled_by = #{handledBy}</if>
+            <if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectHipBillByBillId" parameterType="Integer" resultMap="HipBillResult">
+        <include refid="selectHipBillVo"/>
+        where bill_id = #{billId}
+    </select>
+
+    <insert id="insertHipBill" parameterType="HipBill" useGeneratedKeys="true" keyProperty="billId">
+        insert into hip_bill
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="sysOrgCode != null">sys_org_code,</if>
+            <if test="receivable != null">receivable,</if>
+            <if test="received != null">received,</if>
+            <if test="remainder != null">remainder,</if>
+            <if test="taxPoint != null">tax_point,</if>
+            <if test="receiptDate != null">receipt_date,</if>
+            <if test="isInvoice != null">is_invoice,</if>
+            <if test="invoiceDate != null">invoice_date,</if>
+            <if test="invoiceAmount != null">invoice_amount,</if>
+            <if test="invoicedAmount != null">invoiced_amount,</if>
+            <if test="uninvoicedAmount != null">uninvoiced_amount,</if>
+            <if test="invoiceReversal != null">invoice_reversal,</if>
+            <if test="handledBy != null">handled_by,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="contractNo != null">contract_no,</if>
+            <if test="isEnding != null">is_ending,</if>
+            <if test="customerName != null">customer_name,</if>
+            <if test="customerId != null">customer_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="sysOrgCode != null">#{sysOrgCode},</if>
+            <if test="receivable != null">#{receivable},</if>
+            <if test="received != null">#{received},</if>
+            <if test="remainder != null">#{remainder},</if>
+            <if test="taxPoint != null">#{taxPoint},</if>
+            <if test="receiptDate != null">#{receiptDate},</if>
+            <if test="isInvoice != null">#{isInvoice},</if>
+            <if test="invoiceDate != null">#{invoiceDate},</if>
+            <if test="invoiceAmount != null">#{invoiceAmount},</if>
+            <if test="invoicedAmount != null">#{invoicedAmount},</if>
+            <if test="uninvoicedAmount != null">#{uninvoicedAmount},</if>
+            <if test="invoiceReversal != null">#{invoiceReversal},</if>
+            <if test="handledBy != null">#{handledBy},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="contractNo != null">#{contractNo},</if>
+            <if test="isEnding != null">#{isEnding},</if>
+            <if test="customerName != null">#{customerName},</if>
+            <if test="customerId != null">#{customerId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipBill" parameterType="HipBill">
+        update hip_bill
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="sysOrgCode != null">sys_org_code = #{sysOrgCode},</if>
+            <if test="receivable != null">receivable = #{receivable},</if>
+            <if test="received != null">received = #{received},</if>
+            <if test="remainder != null">remainder = #{remainder},</if>
+            <if test="taxPoint != null">tax_point = #{taxPoint},</if>
+            <if test="receiptDate != null">receipt_date = #{receiptDate},</if>
+            <if test="isInvoice != null">is_invoice = #{isInvoice},</if>
+            <if test="invoiceDate != null">invoice_date = #{invoiceDate},</if>
+            <if test="invoiceAmount != null">invoice_amount = #{invoiceAmount},</if>
+            <if test="invoicedAmount != null">invoiced_amount = #{invoicedAmount},</if>
+            <if test="uninvoicedAmount != null">uninvoiced_amount = #{uninvoicedAmount},</if>
+            <if test="invoiceReversal != null">invoice_reversal = #{invoiceReversal},</if>
+            <if test="handledBy != null">handled_by = #{handledBy},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="contractNo != null">contract_no = #{contractNo},</if>
+            <if test="isEnding != null">is_ending = #{isEnding},</if>
+            <if test="customerName != null">customer_name = #{customerName},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+        </trim>
+        where bill_id = #{billId}
+    </update>
+
+    <delete id="deleteHipBillByBillId" parameterType="Integer">
+        delete from hip_bill where bill_id = #{billId}
+    </delete>
+
+    <delete id="deleteHipBillByBillIds" parameterType="String">
+        delete from hip_bill where bill_id in
+        <foreach item="billId" collection="array" open="(" separator="," close=")">
+            #{billId}
+        </foreach>
+    </delete>
+</mapper>

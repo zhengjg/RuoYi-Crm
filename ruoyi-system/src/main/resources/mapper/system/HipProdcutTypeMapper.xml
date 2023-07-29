@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.HipProdcutTypeMapper">
+    
+    <resultMap type="HipProdcutType" id="HipProdcutTypeResult">
+        <result property="typeId"    column="type_id"    />
+        <result property="name"    column="name"    />
+        <result property="content"    column="content"    />
+        <result property="pics"    column="pics"    />
+        <result property="pid"    column="pid"    />
+        <result property="hasChild"    column="has_child"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectHipProdcutTypeVo">
+        select type_id, name, content, pics, pid, has_child, create_by, create_time from hip_prodcut_type
+    </sql>
+
+    <select id="selectHipProdcutTypeList" parameterType="HipProdcutType" resultMap="HipProdcutTypeResult">
+        <include refid="selectHipProdcutTypeVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectHipProdcutTypeByTypeId" parameterType="Integer" resultMap="HipProdcutTypeResult">
+        <include refid="selectHipProdcutTypeVo"/>
+        where type_id = #{typeId}
+    </select>
+        
+    <insert id="insertHipProdcutType" parameterType="HipProdcutType" useGeneratedKeys="true" keyProperty="typeId">
+        insert into hip_prodcut_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="content != null">content,</if>
+            <if test="pics != null">pics,</if>
+            <if test="pid != null">pid,</if>
+            <if test="hasChild != null">has_child,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="content != null">#{content},</if>
+            <if test="pics != null">#{pics},</if>
+            <if test="pid != null">#{pid},</if>
+            <if test="hasChild != null">#{hasChild},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipProdcutType" parameterType="HipProdcutType">
+        update hip_prodcut_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="pics != null">pics = #{pics},</if>
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="hasChild != null">has_child = #{hasChild},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where type_id = #{typeId}
+    </update>
+
+    <delete id="deleteHipProdcutTypeByTypeId" parameterType="Integer">
+        delete from hip_prodcut_type where type_id = #{typeId}
+    </delete>
+
+    <delete id="deleteHipProdcutTypeByTypeIds" parameterType="String">
+        delete from hip_prodcut_type where type_id in 
+        <foreach item="typeId" collection="array" open="(" separator="," close=")">
+            #{typeId}
+        </foreach>
+    </delete>
+</mapper>

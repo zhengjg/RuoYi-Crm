@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.finance.mapper.HipBillReceivedMapper">
+    
+    <resultMap type="HipBillReceived" id="HipBillReceivedResult">
+        <result property="receivedId"    column="received_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="sysOrgCode"    column="sys_org_code"    />
+        <result property="receivedNo"    column="received_no"    />
+        <result property="receivedAmount"    column="received_amount"    />
+        <result property="receivedDate"    column="received_date"    />
+        <result property="isInvoicing"    column="is_invoicing"    />
+        <result property="invoicingNo"    column="invoicing_no"    />
+        <result property="handleBy"    column="handle_by"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="customerName"    column="customer_name"    />
+    </resultMap>
+
+    <sql id="selectHipBillReceivedVo">
+        select received_id, create_time, sys_org_code, received_no, received_amount, received_date, is_invoicing, invoicing_no, handle_by, customer_id, customer_name from hip_bill_received
+    </sql>
+
+    <select id="selectHipBillReceivedList" parameterType="HipBillReceived" resultMap="HipBillReceivedResult">
+        <include refid="selectHipBillReceivedVo"/>
+        <where>  
+            <if test="receivedNo != null  and receivedNo != ''"> and received_no = #{receivedNo}</if>
+            <if test="receivedDate != null "> and received_date = #{receivedDate}</if>
+            <if test="isInvoicing != null  and isInvoicing != ''"> and is_invoicing = #{isInvoicing}</if>
+            <if test="invoicingNo != null  and invoicingNo != ''"> and invoicing_no = #{invoicingNo}</if>
+            <if test="handleBy != null  and handleBy != ''"> and handle_by = #{handleBy}</if>
+            <if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectHipBillReceivedByReceivedId" parameterType="Integer" resultMap="HipBillReceivedResult">
+        <include refid="selectHipBillReceivedVo"/>
+        where received_id = #{receivedId}
+    </select>
+        
+    <insert id="insertHipBillReceived" parameterType="HipBillReceived" useGeneratedKeys="true" keyProperty="receivedId">
+        insert into hip_bill_received
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">create_time,</if>
+            <if test="sysOrgCode != null">sys_org_code,</if>
+            <if test="receivedNo != null">received_no,</if>
+            <if test="receivedAmount != null">received_amount,</if>
+            <if test="receivedDate != null">received_date,</if>
+            <if test="isInvoicing != null">is_invoicing,</if>
+            <if test="invoicingNo != null">invoicing_no,</if>
+            <if test="handleBy != null">handle_by,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="customerName != null">customer_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">#{createTime},</if>
+            <if test="sysOrgCode != null">#{sysOrgCode},</if>
+            <if test="receivedNo != null">#{receivedNo},</if>
+            <if test="receivedAmount != null">#{receivedAmount},</if>
+            <if test="receivedDate != null">#{receivedDate},</if>
+            <if test="isInvoicing != null">#{isInvoicing},</if>
+            <if test="invoicingNo != null">#{invoicingNo},</if>
+            <if test="handleBy != null">#{handleBy},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="customerName != null">#{customerName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipBillReceived" parameterType="HipBillReceived">
+        update hip_bill_received
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="sysOrgCode != null">sys_org_code = #{sysOrgCode},</if>
+            <if test="receivedNo != null">received_no = #{receivedNo},</if>
+            <if test="receivedAmount != null">received_amount = #{receivedAmount},</if>
+            <if test="receivedDate != null">received_date = #{receivedDate},</if>
+            <if test="isInvoicing != null">is_invoicing = #{isInvoicing},</if>
+            <if test="invoicingNo != null">invoicing_no = #{invoicingNo},</if>
+            <if test="handleBy != null">handle_by = #{handleBy},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="customerName != null">customer_name = #{customerName},</if>
+        </trim>
+        where received_id = #{receivedId}
+    </update>
+
+    <delete id="deleteHipBillReceivedByReceivedId" parameterType="Integer">
+        delete from hip_bill_received where received_id = #{receivedId}
+    </delete>
+
+    <delete id="deleteHipBillReceivedByReceivedIds" parameterType="String">
+        delete from hip_bill_received where received_id in 
+        <foreach item="receivedId" collection="array" open="(" separator="," close=")">
+            #{receivedId}
+        </foreach>
+    </delete>
+</mapper>

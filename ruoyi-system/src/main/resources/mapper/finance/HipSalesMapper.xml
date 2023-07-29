@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.finance.mapper.HipSalesMapper">
+
+    <resultMap type="HipSales" id="HipSalesResult">
+        <result property="salesId"    column="sales_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="sysOrgCode"    column="sys_org_code"    />
+        <result property="extDeliveryDate"    column="ext_delivery_date"    />
+        <result property="extPaymentDate"    column="ext_payment_date"    />
+        <result property="contractNum"    column="contract_num"    />
+        <result property="handleDate"    column="handle_date"    />
+        <result property="deliveryAddress"    column="delivery_address"    />
+        <result property="brand"    column="brand"    />
+        <result property="capactiy"    column="capactiy"    />
+        <result property="num"    column="num"    />
+        <result property="isTax"    column="is_tax"    />
+        <result property="price"    column="price"    />
+        <result property="receivable"    column="receivable"    />
+        <result property="received"    column="received"    />
+        <result property="receivedDate"    column="received_date"    />
+        <result property="receivedMoney"    column="received_money"    />
+        <result property="receivableRemainder"    column="receivable_remainder"    />
+        <result property="isInvoicing"    column="is_invoicing"    />
+        <result property="invoicingDate"    column="invoicing_date"    />
+        <result property="invoicedMoney"    column="invoiced_money"    />
+        <result property="invoicingMoney"    column="invoicing_money"    />
+        <result property="uninvoicedMoney"    column="uninvoiced_money"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="saleNo"    column="sale_no"    />
+    </resultMap>
+
+    <sql id="selectHipSalesVo">
+        select sales_id, create_by, create_time, update_by, update_time, sys_org_code, ext_delivery_date, ext_payment_date, contract_num, handle_date, delivery_address, brand, capactiy, num, is_tax, price, receivable, received, received_date, received_money, receivable_remainder, is_invoicing, invoicing_date, invoiced_money, invoicing_money, uninvoiced_money, remarks, sale_no from hip_sales
+    </sql>
+
+    <select id="selectHipSalesList" parameterType="HipSales" resultMap="HipSalesResult">
+        <include refid="selectHipSalesVo"/>
+        <where>
+            <if test="extDeliveryDate != null "> and ext_delivery_date = #{extDeliveryDate}</if>
+            <if test="extPaymentDate != null "> and ext_payment_date = #{extPaymentDate}</if>
+            <if test="handleDate != null "> and handle_date = #{handleDate}</if>
+            <if test="isTax != null  and isTax != ''"> and is_tax = #{isTax}</if>
+            <if test="isInvoicing != null  and isInvoicing != ''"> and is_invoicing = #{isInvoicing}</if>
+            <if test="invoicingDate != null "> and invoicing_date = #{invoicingDate}</if>
+            <if test="saleNo != null  and saleNo != ''"> and sale_no = #{saleNo}</if>
+        </where>
+    </select>
+
+    <select id="selectHipSalesBySalesId" parameterType="Integer" resultMap="HipSalesResult">
+        <include refid="selectHipSalesVo"/>
+        where sales_id = #{salesId}
+    </select>
+
+    <insert id="insertHipSales" parameterType="HipSales" useGeneratedKeys="true" keyProperty="salesId">
+        insert into hip_sales
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="sysOrgCode != null">sys_org_code,</if>
+            <if test="extDeliveryDate != null">ext_delivery_date,</if>
+            <if test="extPaymentDate != null">ext_payment_date,</if>
+            <if test="contractNum != null">contract_num,</if>
+            <if test="handleDate != null">handle_date,</if>
+            <if test="deliveryAddress != null">delivery_address,</if>
+            <if test="brand != null">brand,</if>
+            <if test="capactiy != null">capactiy,</if>
+            <if test="num != null">num,</if>
+            <if test="isTax != null">is_tax,</if>
+            <if test="price != null">price,</if>
+            <if test="receivable != null">receivable,</if>
+            <if test="received != null">received,</if>
+            <if test="receivedDate != null">received_date,</if>
+            <if test="receivedMoney != null">received_money,</if>
+            <if test="receivableRemainder != null">receivable_remainder,</if>
+            <if test="isInvoicing != null">is_invoicing,</if>
+            <if test="invoicingDate != null">invoicing_date,</if>
+            <if test="invoicedMoney != null">invoiced_money,</if>
+            <if test="invoicingMoney != null">invoicing_money,</if>
+            <if test="uninvoicedMoney != null">uninvoiced_money,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="saleNo != null">sale_no,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="sysOrgCode != null">#{sysOrgCode},</if>
+            <if test="extDeliveryDate != null">#{extDeliveryDate},</if>
+            <if test="extPaymentDate != null">#{extPaymentDate},</if>
+            <if test="contractNum != null">#{contractNum},</if>
+            <if test="handleDate != null">#{handleDate},</if>
+            <if test="deliveryAddress != null">#{deliveryAddress},</if>
+            <if test="brand != null">#{brand},</if>
+            <if test="capactiy != null">#{capactiy},</if>
+            <if test="num != null">#{num},</if>
+            <if test="isTax != null">#{isTax},</if>
+            <if test="price != null">#{price},</if>
+            <if test="receivable != null">#{receivable},</if>
+            <if test="received != null">#{received},</if>
+            <if test="receivedDate != null">#{receivedDate},</if>
+            <if test="receivedMoney != null">#{receivedMoney},</if>
+            <if test="receivableRemainder != null">#{receivableRemainder},</if>
+            <if test="isInvoicing != null">#{isInvoicing},</if>
+            <if test="invoicingDate != null">#{invoicingDate},</if>
+            <if test="invoicedMoney != null">#{invoicedMoney},</if>
+            <if test="invoicingMoney != null">#{invoicingMoney},</if>
+            <if test="uninvoicedMoney != null">#{uninvoicedMoney},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="saleNo != null">#{saleNo},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipSales" parameterType="HipSales">
+        update hip_sales
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="sysOrgCode != null">sys_org_code = #{sysOrgCode},</if>
+            <if test="extDeliveryDate != null">ext_delivery_date = #{extDeliveryDate},</if>
+            <if test="extPaymentDate != null">ext_payment_date = #{extPaymentDate},</if>
+            <if test="contractNum != null">contract_num = #{contractNum},</if>
+            <if test="handleDate != null">handle_date = #{handleDate},</if>
+            <if test="deliveryAddress != null">delivery_address = #{deliveryAddress},</if>
+            <if test="brand != null">brand = #{brand},</if>
+            <if test="capactiy != null">capactiy = #{capactiy},</if>
+            <if test="num != null">num = #{num},</if>
+            <if test="isTax != null">is_tax = #{isTax},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="receivable != null">receivable = #{receivable},</if>
+            <if test="received != null">received = #{received},</if>
+            <if test="receivedDate != null">received_date = #{receivedDate},</if>
+            <if test="receivedMoney != null">received_money = #{receivedMoney},</if>
+            <if test="receivableRemainder != null">receivable_remainder = #{receivableRemainder},</if>
+            <if test="isInvoicing != null">is_invoicing = #{isInvoicing},</if>
+            <if test="invoicingDate != null">invoicing_date = #{invoicingDate},</if>
+            <if test="invoicedMoney != null">invoiced_money = #{invoicedMoney},</if>
+            <if test="invoicingMoney != null">invoicing_money = #{invoicingMoney},</if>
+            <if test="uninvoicedMoney != null">uninvoiced_money = #{uninvoicedMoney},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="saleNo != null">sale_no = #{saleNo},</if>
+        </trim>
+        where sales_id = #{salesId}
+    </update>
+
+    <delete id="deleteHipSalesBySalesId" parameterType="Integer">
+        delete from hip_sales where sales_id = #{salesId}
+    </delete>
+
+    <delete id="deleteHipSalesBySalesIds" parameterType="String">
+        delete from hip_sales where sales_id in
+        <foreach item="salesId" collection="array" open="(" separator="," close=")">
+            #{salesId}
+        </foreach>
+    </delete>
+</mapper>

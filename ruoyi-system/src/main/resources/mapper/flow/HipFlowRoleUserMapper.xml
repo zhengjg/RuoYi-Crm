@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.flow.mapper.HipFlowRoleUserMapper">
+    
+    <resultMap type="HipFlowRoleUser" id="HipFlowRoleUserResult">
+        <result property="userId"    column="user_id"    />
+        <result property="roleId"    column="role_id"    />
+        <result property="flowRoleName"    column="flow_role_name"    />
+    </resultMap>
+
+    <sql id="selectHipFlowRoleUserVo">
+        select user_id, role_id, flow_role_name from hip_flow_role_user
+    </sql>
+
+    <select id="selectHipFlowRoleUserList" parameterType="HipFlowRoleUser" resultMap="HipFlowRoleUserResult">
+        <include refid="selectHipFlowRoleUserVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectHipFlowRoleUserByUserId" parameterType="Integer" resultMap="HipFlowRoleUserResult">
+        <include refid="selectHipFlowRoleUserVo"/>
+        where user_id = #{userId}
+    </select>
+        
+    <insert id="insertHipFlowRoleUser" parameterType="HipFlowRoleUser">
+        insert into hip_flow_role_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="roleId != null">role_id,</if>
+            <if test="flowRoleName != null">flow_role_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="roleId != null">#{roleId},</if>
+            <if test="flowRoleName != null">#{flowRoleName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipFlowRoleUser" parameterType="HipFlowRoleUser">
+        update hip_flow_role_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="roleId != null">role_id = #{roleId},</if>
+            <if test="flowRoleName != null">flow_role_name = #{flowRoleName},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteHipFlowRoleUserByUserId" parameterType="Integer">
+        delete from hip_flow_role_user where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteHipFlowRoleUserByUserIds" parameterType="String">
+        delete from hip_flow_role_user where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

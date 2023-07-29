@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.flow.mapper.HipFlowMapper">
+    
+    <resultMap type="HipFlow" id="HipFlowResult">
+        <result property="flowId"    column="flow_id"    />
+        <result property="flowNo"    column="flow_no"    />
+        <result property="flowName"    column="flow_name"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHipFlowVo">
+        select flow_id, flow_no, flow_name, remark from hip_flow
+    </sql>
+
+    <select id="selectHipFlowList" parameterType="HipFlow" resultMap="HipFlowResult">
+        <include refid="selectHipFlowVo"/>
+        <where>  
+            <if test="flowName != null  and flowName != ''"> and flow_name like concat('%', #{flowName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectHipFlowByFlowId" parameterType="Integer" resultMap="HipFlowResult">
+        <include refid="selectHipFlowVo"/>
+        where flow_id = #{flowId}
+    </select>
+        
+    <insert id="insertHipFlow" parameterType="HipFlow" useGeneratedKeys="true" keyProperty="flowId">
+        insert into hip_flow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flowNo != null">flow_no,</if>
+            <if test="flowName != null">flow_name,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flowNo != null">#{flowNo},</if>
+            <if test="flowName != null">#{flowName},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipFlow" parameterType="HipFlow">
+        update hip_flow
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="flowNo != null">flow_no = #{flowNo},</if>
+            <if test="flowName != null">flow_name = #{flowName},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where flow_id = #{flowId}
+    </update>
+
+    <delete id="deleteHipFlowByFlowId" parameterType="Integer">
+        delete from hip_flow where flow_id = #{flowId}
+    </delete>
+
+    <delete id="deleteHipFlowByFlowIds" parameterType="String">
+        delete from hip_flow where flow_id in 
+        <foreach item="flowId" collection="array" open="(" separator="," close=")">
+            #{flowId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.stock.mapper.HipStockOutDetailMapper">
+    
+    <resultMap type="HipStockOutDetail" id="HipStockOutDetailResult">
+        <result property="stockOutDetailId"    column="stock_out_detail_id"    />
+        <result property="billNo"    column="bill_no"    />
+        <result property="contractNo"    column="contract_no"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="customerName"    column="customer_name"    />
+        <result property="whsOutDate"    column="whs_out_date"    />
+        <result property="handleBy"    column="handle_by"    />
+        <result property="amounts"    column="amounts"    />
+        <result property="price"    column="price"    />
+    </resultMap>
+
+    <sql id="selectHipStockOutDetailVo">
+        select stock_out_detail_id, bill_no, contract_no, customer_id, customer_name, whs_out_date, handle_by, amounts, price from hip_stock_out_detail
+    </sql>
+
+    <select id="selectHipStockOutDetailList" parameterType="HipStockOutDetail" resultMap="HipStockOutDetailResult">
+        <include refid="selectHipStockOutDetailVo"/>
+        <where>  
+            <if test="billNo != null  and billNo != ''"> and bill_no = #{billNo}</if>
+            <if test="contractNo != null  and contractNo != ''"> and contract_no = #{contractNo}</if>
+            <if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
+            <if test="whsOutDate != null "> and whs_out_date = #{whsOutDate}</if>
+            <if test="handleBy != null  and handleBy != ''"> and handle_by = #{handleBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectHipStockOutDetailByStockOutDetailId" parameterType="Integer" resultMap="HipStockOutDetailResult">
+        <include refid="selectHipStockOutDetailVo"/>
+        where stock_out_detail_id = #{stockOutDetailId}
+    </select>
+        
+    <insert id="insertHipStockOutDetail" parameterType="HipStockOutDetail" useGeneratedKeys="true" keyProperty="stockOutDetailId">
+        insert into hip_stock_out_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="billNo != null">bill_no,</if>
+            <if test="contractNo != null">contract_no,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="customerName != null">customer_name,</if>
+            <if test="whsOutDate != null">whs_out_date,</if>
+            <if test="handleBy != null">handle_by,</if>
+            <if test="amounts != null">amounts,</if>
+            <if test="price != null">price,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="billNo != null">#{billNo},</if>
+            <if test="contractNo != null">#{contractNo},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="customerName != null">#{customerName},</if>
+            <if test="whsOutDate != null">#{whsOutDate},</if>
+            <if test="handleBy != null">#{handleBy},</if>
+            <if test="amounts != null">#{amounts},</if>
+            <if test="price != null">#{price},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipStockOutDetail" parameterType="HipStockOutDetail">
+        update hip_stock_out_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="billNo != null">bill_no = #{billNo},</if>
+            <if test="contractNo != null">contract_no = #{contractNo},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="customerName != null">customer_name = #{customerName},</if>
+            <if test="whsOutDate != null">whs_out_date = #{whsOutDate},</if>
+            <if test="handleBy != null">handle_by = #{handleBy},</if>
+            <if test="amounts != null">amounts = #{amounts},</if>
+            <if test="price != null">price = #{price},</if>
+        </trim>
+        where stock_out_detail_id = #{stockOutDetailId}
+    </update>
+
+    <delete id="deleteHipStockOutDetailByStockOutDetailId" parameterType="Integer">
+        delete from hip_stock_out_detail where stock_out_detail_id = #{stockOutDetailId}
+    </delete>
+
+    <delete id="deleteHipStockOutDetailByStockOutDetailIds" parameterType="String">
+        delete from hip_stock_out_detail where stock_out_detail_id in 
+        <foreach item="stockOutDetailId" collection="array" open="(" separator="," close=")">
+            #{stockOutDetailId}
+        </foreach>
+    </delete>
+</mapper>

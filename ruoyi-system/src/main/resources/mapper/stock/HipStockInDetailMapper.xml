@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.stock.mapper.HipStockInDetailMapper">
+    
+    <resultMap type="HipStockInDetail" id="HipStockInDetailResult">
+        <result property="stockInDetailId"    column="stock_in_detail_id"    />
+        <result property="billNo"    column="bill_no"    />
+        <result property="whsInDate"    column="whs_in_date"    />
+        <result property="handleBy"    column="handle_by"    />
+        <result property="amounts"    column="amounts"    />
+        <result property="price"    column="price"    />
+    </resultMap>
+
+    <sql id="selectHipStockInDetailVo">
+        select stock_in_detail_id, bill_no, whs_in_date, handle_by, amounts, price from hip_stock_in_detail
+    </sql>
+
+    <select id="selectHipStockInDetailList" parameterType="HipStockInDetail" resultMap="HipStockInDetailResult">
+        <include refid="selectHipStockInDetailVo"/>
+        <where>  
+            <if test="billNo != null  and billNo != ''"> and bill_no = #{billNo}</if>
+            <if test="whsInDate != null "> and whs_in_date = #{whsInDate}</if>
+            <if test="handleBy != null  and handleBy != ''"> and handle_by = #{handleBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectHipStockInDetailByStockInDetailId" parameterType="Integer" resultMap="HipStockInDetailResult">
+        <include refid="selectHipStockInDetailVo"/>
+        where stock_in_detail_id = #{stockInDetailId}
+    </select>
+        
+    <insert id="insertHipStockInDetail" parameterType="HipStockInDetail" useGeneratedKeys="true" keyProperty="stockInDetailId">
+        insert into hip_stock_in_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="billNo != null">bill_no,</if>
+            <if test="whsInDate != null">whs_in_date,</if>
+            <if test="handleBy != null">handle_by,</if>
+            <if test="amounts != null">amounts,</if>
+            <if test="price != null">price,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="billNo != null">#{billNo},</if>
+            <if test="whsInDate != null">#{whsInDate},</if>
+            <if test="handleBy != null">#{handleBy},</if>
+            <if test="amounts != null">#{amounts},</if>
+            <if test="price != null">#{price},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipStockInDetail" parameterType="HipStockInDetail">
+        update hip_stock_in_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="billNo != null">bill_no = #{billNo},</if>
+            <if test="whsInDate != null">whs_in_date = #{whsInDate},</if>
+            <if test="handleBy != null">handle_by = #{handleBy},</if>
+            <if test="amounts != null">amounts = #{amounts},</if>
+            <if test="price != null">price = #{price},</if>
+        </trim>
+        where stock_in_detail_id = #{stockInDetailId}
+    </update>
+
+    <delete id="deleteHipStockInDetailByStockInDetailId" parameterType="Integer">
+        delete from hip_stock_in_detail where stock_in_detail_id = #{stockInDetailId}
+    </delete>
+
+    <delete id="deleteHipStockInDetailByStockInDetailIds" parameterType="String">
+        delete from hip_stock_in_detail where stock_in_detail_id in 
+        <foreach item="stockInDetailId" collection="array" open="(" separator="," close=")">
+            #{stockInDetailId}
+        </foreach>
+    </delete>
+</mapper>

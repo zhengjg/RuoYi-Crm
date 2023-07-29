@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.customer.mapper.HipCustomerMapper">
+
+    <resultMap type="HipCustomer" id="HipCustomerResult">
+        <result property="customerId"    column="customer_id"    />
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+        <result property="shortName"    column="short_name"    />
+        <result property="auxName"    column="aux_name"    />
+        <result property="customerCategory"    column="customer_category"    />
+        <result property="customerLevel"    column="customer_level"    />
+        <result property="taxScale"    column="tax_scale"    />
+        <result property="creditQuota"    column="credit_quota"    />
+        <result property="headquarters"    column="headquarters"    />
+        <result property="area"    column="area"    />
+        <result property="bizArea"    column="biz_area"    />
+        <result property="address"    column="address"    />
+        <result property="website"    column="website"    />
+        <result property="legalPerson"    column="legal_person"    />
+        <result property="legalPersonPhone"    column="legal_person_phone"    />
+        <result property="financialContacts"    column="financial_contacts"    />
+        <result property="financialPhone"    column="financial_phone"    />
+        <result property="invoiceCompany"    column="invoice_company"    />
+        <result property="invoiceTaxCode"    column="invoice_tax_code"    />
+        <result property="invoiceBankName"    column="invoice_bank_name"    />
+        <result property="invoiceBankCode"    column="invoice_bank_code"    />
+        <result property="invoiceAccount"    column="invoice_account"    />
+        <result property="invoicePhone"    column="invoice_phone"    />
+        <result property="invoiceAddress"    column="invoice_address"    />
+        <result property="paymentCompany"    column="payment_company"    />
+        <result property="paymentBankName"    column="payment_bank_name"    />
+        <result property="paymentBankCode"    column="payment_bank_code"    />
+        <result property="paymentAccount"    column="payment_account"    />
+        <result property="recvName"    column="recv_name"    />
+        <result property="recvPhone"    column="recv_phone"    />
+        <result property="recvFax"    column="recv_fax"    />
+        <result property="recvEmail"    column="recv_email"    />
+        <result property="recvAddress"    column="recv_address"    />
+        <result property="recvPostcode"    column="recv_postcode"    />
+        <result property="attachment"    column="attachment"    />
+        <result property="isEnabled"    column="is_enabled"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="version"    column="version"    />
+        <result property="salesMan"    column="sales_man"    />
+    </resultMap>
+
+    <sql id="selectHipCustomerVo">
+        select customer_id, code, name, short_name, aux_name, customer_category, customer_level, tax_scale, credit_quota, headquarters, area, biz_area, address, website, legal_person, legal_person_phone, financial_contacts, financial_phone, invoice_company, invoice_tax_code, invoice_bank_name, invoice_bank_code, invoice_account, invoice_phone, invoice_address, payment_company, payment_bank_name, payment_bank_code, payment_account, recv_name, recv_phone, recv_fax, recv_email, recv_address, recv_postcode, attachment, is_enabled, remark, create_by, create_time, update_by, update_time, version, sales_man from hip_customer
+    </sql>
+
+    <select id="selectHipCustomerList" parameterType="HipCustomer" resultMap="HipCustomerResult">
+        <include refid="selectHipCustomerVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="customerCategory != null  and customerCategory != ''"> and customer_category = #{customerCategory}</if>
+            <if test="customerLevel != null  and customerLevel != ''"> and customer_level = #{customerLevel}</if>
+            <if test="area != null  and area != ''"> and area = #{area}</if>
+            <if test="salesMan != null  and salesMan != ''"> and sales_man = #{salesMan}</if>
+        </where>
+    </select>
+
+    <select id="selectHipCustomerByCustomerId" parameterType="Integer" resultMap="HipCustomerResult">
+        <include refid="selectHipCustomerVo"/>
+        where customer_id = #{customerId}
+    </select>
+
+    <insert id="insertHipCustomer" parameterType="HipCustomer" useGeneratedKeys="true" keyProperty="customerId">
+        insert into hip_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">code,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="shortName != null">short_name,</if>
+            <if test="auxName != null and auxName != ''">aux_name,</if>
+            <if test="customerCategory != null">customer_category,</if>
+            <if test="customerLevel != null">customer_level,</if>
+            <if test="taxScale != null">tax_scale,</if>
+            <if test="creditQuota != null">credit_quota,</if>
+            <if test="headquarters != null">headquarters,</if>
+            <if test="area != null">area,</if>
+            <if test="bizArea != null">biz_area,</if>
+            <if test="address != null">address,</if>
+            <if test="website != null">website,</if>
+            <if test="legalPerson != null">legal_person,</if>
+            <if test="legalPersonPhone != null">legal_person_phone,</if>
+            <if test="financialContacts != null">financial_contacts,</if>
+            <if test="financialPhone != null">financial_phone,</if>
+            <if test="invoiceCompany != null">invoice_company,</if>
+            <if test="invoiceTaxCode != null">invoice_tax_code,</if>
+            <if test="invoiceBankName != null">invoice_bank_name,</if>
+            <if test="invoiceBankCode != null">invoice_bank_code,</if>
+            <if test="invoiceAccount != null">invoice_account,</if>
+            <if test="invoicePhone != null">invoice_phone,</if>
+            <if test="invoiceAddress != null">invoice_address,</if>
+            <if test="paymentCompany != null">payment_company,</if>
+            <if test="paymentBankName != null">payment_bank_name,</if>
+            <if test="paymentBankCode != null">payment_bank_code,</if>
+            <if test="paymentAccount != null">payment_account,</if>
+            <if test="recvName != null">recv_name,</if>
+            <if test="recvPhone != null">recv_phone,</if>
+            <if test="recvFax != null">recv_fax,</if>
+            <if test="recvEmail != null">recv_email,</if>
+            <if test="recvAddress != null">recv_address,</if>
+            <if test="recvPostcode != null">recv_postcode,</if>
+            <if test="attachment != null">attachment,</if>
+            <if test="isEnabled != null">is_enabled,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="version != null">version,</if>
+            <if test="salesMan != null">sales_man,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="shortName != null">#{shortName},</if>
+            <if test="auxName != null and auxName != ''">#{auxName},</if>
+            <if test="customerCategory != null">#{customerCategory},</if>
+            <if test="customerLevel != null">#{customerLevel},</if>
+            <if test="taxScale != null">#{taxScale},</if>
+            <if test="creditQuota != null">#{creditQuota},</if>
+            <if test="headquarters != null">#{headquarters},</if>
+            <if test="area != null">#{area},</if>
+            <if test="bizArea != null">#{bizArea},</if>
+            <if test="address != null">#{address},</if>
+            <if test="website != null">#{website},</if>
+            <if test="legalPerson != null">#{legalPerson},</if>
+            <if test="legalPersonPhone != null">#{legalPersonPhone},</if>
+            <if test="financialContacts != null">#{financialContacts},</if>
+            <if test="financialPhone != null">#{financialPhone},</if>
+            <if test="invoiceCompany != null">#{invoiceCompany},</if>
+            <if test="invoiceTaxCode != null">#{invoiceTaxCode},</if>
+            <if test="invoiceBankName != null">#{invoiceBankName},</if>
+            <if test="invoiceBankCode != null">#{invoiceBankCode},</if>
+            <if test="invoiceAccount != null">#{invoiceAccount},</if>
+            <if test="invoicePhone != null">#{invoicePhone},</if>
+            <if test="invoiceAddress != null">#{invoiceAddress},</if>
+            <if test="paymentCompany != null">#{paymentCompany},</if>
+            <if test="paymentBankName != null">#{paymentBankName},</if>
+            <if test="paymentBankCode != null">#{paymentBankCode},</if>
+            <if test="paymentAccount != null">#{paymentAccount},</if>
+            <if test="recvName != null">#{recvName},</if>
+            <if test="recvPhone != null">#{recvPhone},</if>
+            <if test="recvFax != null">#{recvFax},</if>
+            <if test="recvEmail != null">#{recvEmail},</if>
+            <if test="recvAddress != null">#{recvAddress},</if>
+            <if test="recvPostcode != null">#{recvPostcode},</if>
+            <if test="attachment != null">#{attachment},</if>
+            <if test="isEnabled != null">#{isEnabled},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="version != null">#{version},</if>
+            <if test="salesMan != null">#{salesMan},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHipCustomer" parameterType="HipCustomer">
+        update hip_customer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="shortName != null">short_name = #{shortName},</if>
+            <if test="auxName != null and auxName != ''">aux_name = #{auxName},</if>
+            <if test="customerCategory != null">customer_category = #{customerCategory},</if>
+            <if test="customerLevel != null">customer_level = #{customerLevel},</if>
+            <if test="taxScale != null">tax_scale = #{taxScale},</if>
+            <if test="creditQuota != null">credit_quota = #{creditQuota},</if>
+            <if test="headquarters != null">headquarters = #{headquarters},</if>
+            <if test="area != null">area = #{area},</if>
+            <if test="bizArea != null">biz_area = #{bizArea},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="website != null">website = #{website},</if>
+            <if test="legalPerson != null">legal_person = #{legalPerson},</if>
+            <if test="legalPersonPhone != null">legal_person_phone = #{legalPersonPhone},</if>
+            <if test="financialContacts != null">financial_contacts = #{financialContacts},</if>
+            <if test="financialPhone != null">financial_phone = #{financialPhone},</if>
+            <if test="invoiceCompany != null">invoice_company = #{invoiceCompany},</if>
+            <if test="invoiceTaxCode != null">invoice_tax_code = #{invoiceTaxCode},</if>
+            <if test="invoiceBankName != null">invoice_bank_name = #{invoiceBankName},</if>
+            <if test="invoiceBankCode != null">invoice_bank_code = #{invoiceBankCode},</if>
+            <if test="invoiceAccount != null">invoice_account = #{invoiceAccount},</if>
+            <if test="invoicePhone != null">invoice_phone = #{invoicePhone},</if>
+            <if test="invoiceAddress != null">invoice_address = #{invoiceAddress},</if>
+            <if test="paymentCompany != null">payment_company = #{paymentCompany},</if>
+            <if test="paymentBankName != null">payment_bank_name = #{paymentBankName},</if>
+            <if test="paymentBankCode != null">payment_bank_code = #{paymentBankCode},</if>
+            <if test="paymentAccount != null">payment_account = #{paymentAccount},</if>
+            <if test="recvName != null">recv_name = #{recvName},</if>
+            <if test="recvPhone != null">recv_phone = #{recvPhone},</if>
+            <if test="recvFax != null">recv_fax = #{recvFax},</if>
+            <if test="recvEmail != null">recv_email = #{recvEmail},</if>
+            <if test="recvAddress != null">recv_address = #{recvAddress},</if>
+            <if test="recvPostcode != null">recv_postcode = #{recvPostcode},</if>
+            <if test="attachment != null">attachment = #{attachment},</if>
+            <if test="isEnabled != null">is_enabled = #{isEnabled},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="version != null">version = #{version},</if>
+            <if test="salesMan != null">sales_man = #{salesMan},</if>
+        </trim>
+        where customer_id = #{customerId}
+    </update>
+
+    <delete id="deleteHipCustomerByCustomerId" parameterType="Integer">
+        delete from hip_customer where customer_id = #{customerId}
+    </delete>
+
+    <delete id="deleteHipCustomerByCustomerIds" parameterType="String">
+        delete from hip_customer where customer_id in
+        <foreach item="customerId" collection="array" open="(" separator="," close=")">
+            #{customerId}
+        </foreach>
+    </delete>
+</mapper>
