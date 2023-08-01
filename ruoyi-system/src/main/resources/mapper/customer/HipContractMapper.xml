@@ -54,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getOrderByCustomerId" parameterType="String" resultMap="HipContractResult">
         <include refid="selectHipContractVo"/>
         <where>
-            <if test="customerId != null  and customerId != ''"> and customer_id = #{customerId} and status = "2"</if>
+            <if test="customerId != null  and customerId != ''"> and customer_id = #{customerId}</if>
         </where>
     </select>
 

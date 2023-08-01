@@ -18,6 +18,15 @@ public interface HipContractOrderMapper
      * @param contractNo
      * @return
      */
+    public List<HipContractOrder> selectByContractNo(String contractNo);
+
+
+    /**
+     *
+     *
+     * @param contractNo
+     * @return
+     */
     public List<HipContractOrder> getContractProducts(String contractNo);
 
     /**

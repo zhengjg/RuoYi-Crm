@@ -76,7 +76,22 @@ public class HipContractServiceImpl implements IHipContractService
     @Override
     public List<HipContract> selectHipContractList(HipContract hipContract)
     {
-        return hipContractMapper.selectHipContractList(hipContract);
+        List<HipContract> contractList = hipContractMapper.selectHipContractList(hipContract);
+        if(!Collections.isEmpty(contractList)) {
+            for(HipContract contract: contractList){
+                List<HipContractOrder> contractOrders = hipContractOrderMapper.selectByContractNo(contract.getContractNo());
+                if(!Collections.isEmpty(contractOrders)) {
+                    contract.setHipContractOrderList(contractOrders);
+                }
+            }
+//            hipContracts.stream().forEach(e ->{
+//                List<HipContractOrder> contractOrders = hipContractOrderMapper.getContractProducts(Integer.parseInt(e.getContractNo()));
+//                if(!Collections.isEmpty(contractOrders)) {
+//                    e.setHipContractOrderList(contractOrders);
+//                }
+//            });
+        }
+        return contractList;
     }
 
     /**

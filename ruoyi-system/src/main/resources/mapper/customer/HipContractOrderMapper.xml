@@ -25,6 +25,11 @@
         select contract_order_id, create_time, prodct_name, model, capacity, category, brand, status, unit_price, quantity, amount_money, remarks, contract_no, product_id from hip_contract_order
     </sql>
 
+    <select id="getContractProducts" parameterType="HipContractOrder" resultMap="HipContractOrderResult">
+        <include refid="selectHipContractOrderVo"/>
+        where contract_no = #{contractNo}
+    </select>
+
     <select id="selectHipContractOrderList" parameterType="HipContractOrder" resultMap="HipContractOrderResult">
         <include refid="selectHipContractOrderVo"/>
         <where>
